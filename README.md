@@ -53,8 +53,8 @@ Install the following before running the project:
 Clone the repository if you're starting from GitHub:
 
 ```bash
-git clone YOUR_REPOSITORY_URL
-cd cloud_native_marketplace
+git clone https://github.com/Ronitbera/cloud-native-marketplace.git
+cd cloud-native-marketplace
 ```
 
 Build and start the services:
