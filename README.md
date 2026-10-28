@@ -2,16 +2,17 @@
 
 A Go-based microservices application demonstrating order processing, inventory management, simulated payment processing, and customer notifications using Docker and PostgreSQL.
 
+
 ## Architecture
 
 ```mermaid
 flowchart TD
-    Client[API Client]
-    Orders[Orders Service - Go :8080]
-    Inventory[Inventory Service - Go :8081]
-    Payments[Payments Service - Go :8082]
-    Notifications[Notifications Service - Go :8083]
-    DB[(PostgreSQL :5432)]
+    Client["API Client"]
+    Orders["Orders Service<br/>Go :8080"]
+    Inventory["Inventory Service<br/>Go :8081"]
+    Payments["Payments Service<br/>Go :8082"]
+    Notifications["Notifications Service<br/>Go :8083"]
+    DB[("PostgreSQL :5432")]
 
     Client --> Orders
     Orders --> Inventory
