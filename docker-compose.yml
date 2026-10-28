@@ -1,0 +1,72 @@
+
+services:
+  orders:
+    build: .
+    command: ["/app/orders"]
+    ports:
+      - "8080:8080"
+    environment:
+      PORT : "8080"
+      INVENTORY_URL: http://inventory:8081
+      PAYMENTS_URL: http://payments:8082
+      NOTIFICATIONS_URL: http://notifications:8083
+      DATABASE_URL: ${DATABASE_URL:-postgres://marketplace:marketplace123@postgres:5432/marketplace?sslmode=disable}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      inventory:
+        condition: service_started
+      payments:
+        condition: service_started
+      notifications:
+        condition: service_started
+
+  inventory:
+    build: .
+    command: ["/app/inventory"]
+    ports:
+      - "8081:8081"
+    environment:
+      PORT: "8081"
+      DATABASE_URL: ${DATABASE_URL:-postgres://marketplace:marketplace123@postgres:5432/marketplace?sslmode=disable}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+
+  payments:
+    build: .
+    command: ["/app/payments"]
+    ports:
+      - "8082:8082"
+    environment:
+      PORT: "8082"
+      DATABASE_URL: ${DATABASE_URL:-postgres://marketplace:marketplace123@postgres:5432/marketplace?sslmode=disable}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  notifications:
+    build: .
+    command: ["/app/notifications"]
+    ports:
+      - "8083:8083"
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: marketplace
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-marketplace123}
+      POSTGRES_DB: marketplace
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U marketplace -d marketplace"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:

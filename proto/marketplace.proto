@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package marketplace.v1;
+option go_package = "cloud-native-marketplace/gen/marketplace/v1";
+
+service InventoryService {
+  rpc ReserveStock(ReserveStockRequest) returns (ReserveStockResponse);
+  rpc ReleaseStock(ReleaseStockRequest) returns (ReleaseStockResponse);
+}
+
+message ReserveStockRequest {
+  string sku = 1;
+  int32 quantity = 2;
+  string order_id = 3;
+}
+
+message ReserveStockResponse {
+  bool reserved = 1;
+  int32 remaining = 2;
+  string reason = 3;
+}
+
+message ReleaseStockRequest {
+  string sku = 1;
+  int32 quantity = 2;
+  string order_id = 3;
+}
+
+message ReleaseStockResponse {
+  bool released = 1;
+}

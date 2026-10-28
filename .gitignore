@@ -1,0 +1,9 @@
+
+.env
+.env.*
+!.env.example
+*.log
+bin/
+dist/
+coverage.out
+*.bak

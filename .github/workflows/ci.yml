@@ -1,0 +1,18 @@
+name: Go CI
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+      - name: Build services
+        run: |
+          go build ./services/orders
+          go build ./services/inventory
+          go build ./services/payments
+          go build ./services/notifications
